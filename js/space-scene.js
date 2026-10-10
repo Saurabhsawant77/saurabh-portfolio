@@ -12,7 +12,7 @@ import * as S from './shaders.js';
 import { LAND, WATER, HOME_LAT_LON } from './earth-data.js';
 import {
   mat4, multiply, perspective, lookAt, modelMatrix, orbitMatrix,
-  transformPoint, seededRandom, clamp,
+  transformPoint, seededRandom, clamp, rotationX, rotationY,
 } from './gl-math.js';
 
 const TAU = Math.PI * 2;
@@ -22,6 +22,19 @@ export const EARTH_POS = [30, 0, 0];
 const EARTH_TILT = 23.4 * DEG;
 const MOON = { r: 0.27, orbit: 3.4, incline: 0.09 };
 const SUN_R = 6;
+
+/* Artificial satellites in low Earth orbit (radii in Earth radii; artistic,
+   not real spacecraft). Each has its own tilted orbital plane. */
+const SATELLITES = [
+  { r: 1.16, incl: 0.9, node: 0.4, phase: 0.0, speed: 0.11, scale: 1.6 },
+  { r: 1.22, incl: -0.35, node: 2.1, phase: 2.4, speed: 0.09, scale: 1.3 },
+  { r: 1.32, incl: 1.35, node: 4.0, phase: 4.1, speed: 0.07, scale: 1.45 },
+  { r: 1.45, incl: 0.15, node: 1.2, phase: 1.0, speed: 0.055, scale: 1.8 },
+  { r: 1.28, incl: -1.1, node: 5.2, phase: 5.5, speed: 0.08, scale: 1.2 },
+  { r: 1.6, incl: 0.55, node: 3.1, phase: 3.3, speed: 0.045, scale: 1.6 },
+  { r: 1.38, incl: 2.4, node: 0.9, phase: 1.9, speed: 0.065, scale: 1.4 },
+];
+const TRAIL = 0.11; // fraction of the orbit drawn behind each satellite
 
 const PLANETS = [
   { name: 'Mercury', sub: '0.39 AU', r: 0.38, orbit: 13, phase: 2.2, kind: 0, a: [0.56, 0.53, 0.5], b: [0.34, 0.32, 0.31], seed: 1.3 },
@@ -88,6 +101,7 @@ export class SpaceScene {
       line: this.program(S.LINE_VS, S.LINE_FS),
       points: this.program(S.POINTS_VS, S.POINTS_FS),
       glow: this.program(S.GLOW_VS, S.GLOW_FS),
+      sat: this.program(S.SAT_VS, S.SAT_FS),
     };
 
     this.buffers = {
@@ -98,6 +112,8 @@ export class SpaceScene {
       ring: this.staticBuffer(new Float32Array([-1, 0, -1, 1, 0, -1, -1, 0, 1, 1, 0, 1])),
       stars: this.pointCloud(this.makeStars(this.quality.stars)),
       dust: this.pointCloud(this.makeDust(this.quality.dust)),
+      satMesh: this.satelliteMesh(),
+      satGlints: this.satelliteGlints(),
     };
 
     this.bakeEarthTextures();
@@ -247,6 +263,50 @@ export class SpaceScene {
       col.set([0.62 * b, 0.76 * b, 1.0 * b], i * 3);
     }
     return { pos, data, col };
+  }
+
+  /** Body + truss + two solar-panel wings, built from boxes (pos, normal, colour). */
+  satelliteMesh() {
+    const v = [];
+    const box = (cx, cy, cz, hx, hy, hz, col) => {
+      const faces = [
+        [[1, 0, 0], [[1, -1, -1], [1, 1, -1], [1, 1, 1], [1, -1, 1]]],
+        [[-1, 0, 0], [[-1, -1, 1], [-1, 1, 1], [-1, 1, -1], [-1, -1, -1]]],
+        [[0, 1, 0], [[-1, 1, -1], [-1, 1, 1], [1, 1, 1], [1, 1, -1]]],
+        [[0, -1, 0], [[-1, -1, 1], [-1, -1, -1], [1, -1, -1], [1, -1, 1]]],
+        [[0, 0, 1], [[1, -1, 1], [1, 1, 1], [-1, 1, 1], [-1, -1, 1]]],
+        [[0, 0, -1], [[-1, -1, -1], [-1, 1, -1], [1, 1, -1], [1, -1, -1]]],
+      ];
+      for (const [n, q] of faces) {
+        const p = q.map(([x, y, z]) => [cx + x * hx, cy + y * hy, cz + z * hz]);
+        for (const i of [0, 1, 2, 0, 2, 3]) v.push(...p[i], ...n, ...col);
+      }
+    };
+    const gold = [0.86, 0.66, 0.32];
+    const grey = [0.55, 0.57, 0.6];
+    const panel = [0.1, 0.2, 0.45];
+    box(0, 0, 0, 0.006, 0.006, 0.0075, gold);
+    box(0.0075, 0, 0, 0.0016, 0.0022, 0.0022, grey);       // sensor
+    box(0, 0, 0, 0.0007, 0.0115, 0.0007, grey);            // truss
+    box(0, 0.0165, 0, 0.0005, 0.0065, 0.0055, panel);      // wings
+    box(0, -0.0165, 0, 0.0005, 0.0065, 0.0055, panel);
+    return { vbo: this.staticBuffer(new Float32Array(v)), count: v.length / 9 };
+  }
+
+  /** Tiny additive glints so satellites still read when they are only a few pixels. */
+  satelliteGlints() {
+    const gl = this.gl;
+    const n = SATELLITES.length;
+    const data = new Float32Array(n * 4);
+    const col = new Float32Array(n * 3);
+    SATELLITES.forEach((s, i) => {
+      data.set([1.6 * s.scale + 1.2, i * 1.7, 0.55, 2.2 + i * 0.3], i * 4);
+      col.set([0.95, 0.97, 1.0], i * 3);
+    });
+    const pos = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, pos);
+    gl.bufferData(gl.ARRAY_BUFFER, n * 12, gl.DYNAMIC_DRAW);
+    return { pos, data: this.staticBuffer(data), col: this.staticBuffer(col), count: n, positions: new Float32Array(n * 3) };
   }
 
   canvasTexture(source, repeatS) {
@@ -488,6 +548,8 @@ export class SpaceScene {
     this.drawSun(time, eye);
     this.drawEarth(state, time, eye);
     this.drawPlanet({ pos: bodies.moon, r: MOON.r, kind: 0, a: [0.64, 0.63, 0.61], b: [0.4, 0.39, 0.38], seed: 9.1 }, eye, false, 1);
+    const sats = state.satellites > 0.01 ? this.satelliteFrames(time) : null;
+    if (sats) this.drawSatellites(sats, eye, state.satellites);
     const planetFade = clamp(state.orbits * 1.5);
     if (planetFade > 0.01) for (const p of bodies.planets) this.drawPlanet(p, eye, true, planetFade);
 
@@ -505,6 +567,14 @@ export class SpaceScene {
     }
     if (state.moonOrbit > 0.01) {
       this.drawOrbit(EARTH_POS, MOON.orbit, MOON.incline, 0.22 * state.moonOrbit);
+    }
+    if (sats) {
+      for (const f of sats) this.drawOrbitMatrix(f.orbit, 0, [1 - TRAIL, 1, 0.6 * state.satellites]);
+      const g = this.buffers.satGlints;
+      sats.forEach((f, i) => g.positions.set(f.pos, i * 3));
+      gl.bindBuffer(gl.ARRAY_BUFFER, g.pos);
+      gl.bufferSubData(gl.ARRAY_BUFFER, 0, g.positions);
+      this.drawPoints(g, time, 0, 0.8 * state.satellites);
     }
     this.drawPoints(this.buffers.dust, time, 1, state.dust);
 
@@ -613,15 +683,64 @@ export class SpaceScene {
     gl.disableVertexAttribArray(prog.a('a_position'));
   }
 
+  /**
+   * Per-satellite matrices. The orbit matrix is rotated so the satellite sits
+   * at the end of the line loop (t = 1), which lets the line shader's
+   * highlight ramp draw a fading trail behind it.
+   */
+  satelliteFrames(time) {
+    return SATELLITES.map((s) => {
+      const theta = s.phase + time * s.speed;
+      const rot = multiply(mat4(), rotationY(s.node), rotationX(s.incl));
+      multiply(rot, rot, rotationY(-theta));
+      const orbit = mat4();
+      orbit.set(rot);
+      orbit[12] = EARTH_POS[0]; orbit[13] = EARTH_POS[1]; orbit[14] = EARTH_POS[2];
+      const pos = [EARTH_POS[0] + rot[0] * s.r, EARTH_POS[1] + rot[1] * s.r, EARTH_POS[2] + rot[2] * s.r];
+      const body = mat4();
+      for (let i = 0; i < 12; i++) body[i] = rot[i] * s.scale;
+      body[12] = pos[0]; body[13] = pos[1]; body[14] = pos[2];
+      for (let i = 0; i < 12; i++) orbit[i] *= s.r;
+      return { orbit, body, pos };
+    });
+  }
+
+  drawSatellites(frames, eye, fade) {
+    const gl = this.gl;
+    const prog = this.programs.sat;
+    const mesh = this.buffers.satMesh;
+    gl.useProgram(prog.p);
+    gl.bindBuffer(gl.ARRAY_BUFFER, mesh.vbo);
+    const attrs = [['a_position', 0], ['a_normal', 12], ['a_color', 24]];
+    for (const [name, off] of attrs) {
+      gl.enableVertexAttribArray(prog.a(name));
+      gl.vertexAttribPointer(prog.a(name), 3, gl.FLOAT, false, 36, off);
+    }
+    gl.uniformMatrix4fv(prog.u('u_view'), false, this.view);
+    gl.uniformMatrix4fv(prog.u('u_proj'), false, this.proj);
+    gl.uniform3fv(prog.u('u_camPos'), eye);
+    gl.uniform3fv(prog.u('u_earthPos'), EARTH_POS);
+    gl.uniform1f(prog.u('u_fade'), fade);
+    for (const f of frames) {
+      gl.uniformMatrix4fv(prog.u('u_model'), false, f.body);
+      gl.drawArrays(gl.TRIANGLES, 0, mesh.count);
+    }
+    for (const [name] of attrs) gl.disableVertexAttribArray(prog.a(name));
+  }
+
   drawOrbit(center, radius, incline, alpha, highlight) {
+    orbitMatrix(this.model, center, radius, incline);
+    this.drawOrbitMatrix(this.model, alpha, highlight);
+  }
+
+  drawOrbitMatrix(model, alpha, highlight) {
     const gl = this.gl;
     const prog = this.programs.line;
     gl.useProgram(prog.p);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.orbit.vbo);
     gl.enableVertexAttribArray(prog.a('a_t'));
     gl.vertexAttribPointer(prog.a('a_t'), 1, gl.FLOAT, false, 0, 0);
-    orbitMatrix(this.model, center, radius, incline);
-    gl.uniformMatrix4fv(prog.u('u_model'), false, this.model);
+    gl.uniformMatrix4fv(prog.u('u_model'), false, model);
     gl.uniformMatrix4fv(prog.u('u_view'), false, this.view);
     gl.uniformMatrix4fv(prog.u('u_proj'), false, this.proj);
     gl.uniform4f(prog.u('u_color'), 0.6, 0.75, 1.0, alpha);

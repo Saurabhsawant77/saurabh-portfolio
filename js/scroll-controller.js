@@ -14,15 +14,15 @@ import { clamp, lerp, easeInOutCubic } from './gl-math.js';
 const BASE = {
   focus: 0, dist: 3, az: 1, el: 0.1, shiftX: 0, shiftY: 0,
   orbits: 0, labels: 0, nearLabels: 0, moonOrbit: 0, marker: 0,
-  trajectory: 0, dust: 1, dim: 1,
+  trajectory: 0, dust: 1, dim: 1, satellites: 0,
 };
 
 /* Camera presets. az/el are radians around the focus point (az = 0 looks
    at Earth from the Sun's side). shiftX/Y move the composition on screen so
    celestial bodies sit beside, not under, the text. */
 const PRESETS = {
-  home: { dist: 3.05, az: 0.95, el: 0.1, shiftX: 0.44, marker: 1 },
-  profile: { dist: 8.5, az: 1.22, el: 0.24, shiftX: 0.3, shiftY: 0.02, nearLabels: 1, moonOrbit: 1, marker: 0.7 },
+  home: { dist: 3.05, az: 0.95, el: 0.1, shiftX: 0.44, marker: 1, satellites: 1 },
+  profile: { dist: 8.5, az: 1.22, el: 0.24, shiftX: 0.3, shiftY: 0.02, nearLabels: 1, moonOrbit: 1, marker: 0.7, satellites: 1 },
   trajectory: { focus: 0.5, dist: 80, az: 1.5, el: 0.45, shiftX: 0.44, shiftY: -0.02, orbits: 1, labels: 1, moonOrbit: 0.25 },
   about: { focus: 0.8, dist: 104, az: 1.85, el: 0.5, shiftX: -0.34, orbits: 1, labels: 0.8, dim: 0.95 },
   experience: { focus: 0.92, dist: 82, az: 2.15, el: 0.34, shiftX: 0.52, orbits: 1, labels: 0.65, trajectory: 1, dim: 0.9 },

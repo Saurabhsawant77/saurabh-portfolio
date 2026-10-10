@@ -431,3 +431,48 @@ void main() {
   gl_FragColor = vec4(u_color * a * u_intensity, 1.0);
 }
 `;
+
+/* ---------- Satellites (small lit meshes) ---------- */
+
+export const SAT_VS = `
+attribute vec3 a_position;
+attribute vec3 a_normal;
+attribute vec3 a_color;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_proj;
+varying vec3 v_normal;
+varying vec3 v_world;
+varying vec3 v_color;
+void main() {
+  vec4 w = u_model * vec4(a_position, 1.0);
+  v_world = w.xyz;
+  v_normal = (u_model * vec4(a_normal, 0.0)).xyz;
+  v_color = a_color;
+  gl_Position = u_proj * u_view * w;
+}
+`;
+
+export const SAT_FS = `${PRECISION}
+uniform vec3 u_camPos;
+uniform vec3 u_earthPos;
+uniform float u_fade;
+varying vec3 v_normal;
+varying vec3 v_world;
+varying vec3 v_color;
+void main() {
+  vec3 N = normalize(v_normal);
+  vec3 L = normalize(-v_world);
+  vec3 V = normalize(u_camPos - v_world);
+  // Earth's shadow: does the ray toward the Sun hit the planet?
+  vec3 oc = v_world - u_earthPos;
+  float b = dot(oc, L);
+  float c = dot(oc, oc) - 1.0;
+  float h = b * b - c;
+  float lit = (h > 0.0 && b < 0.0) ? 0.0 : 1.0;
+  float diff = max(dot(N, L), 0.0) * lit;
+  float spec = pow(max(dot(N, normalize(L + V)), 0.0), 40.0) * lit;
+  vec3 col = v_color * (0.09 + 1.15 * diff) + vec3(1.0, 0.96, 0.9) * spec * 0.9;
+  gl_FragColor = vec4(col * u_fade, 1.0);
+}
+`;

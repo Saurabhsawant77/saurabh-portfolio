@@ -86,6 +86,20 @@ export function orbitMatrix(out, pos, scale, incline = 0) {
   return out;
 }
 
+export function rotationX(a) {
+  const m = mat4();
+  const c = Math.cos(a), s = Math.sin(a);
+  m[5] = c; m[6] = s; m[9] = -s; m[10] = c;
+  return m;
+}
+
+export function rotationY(a) {
+  const m = mat4();
+  const c = Math.cos(a), s = Math.sin(a);
+  m[0] = c; m[2] = -s; m[8] = s; m[10] = c;
+  return m;
+}
+
 export function transformPoint(m, p) {
   const x = p[0], y = p[1], z = p[2];
   const w = m[3] * x + m[7] * y + m[11] * z + m[15];
