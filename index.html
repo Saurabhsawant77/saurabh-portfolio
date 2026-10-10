@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Saurabh Sawant — Software Engineer</title>
+  <meta name="description" content="Saurabh Sawant is a Software Engineer in Navi Mumbai, India, building scalable backend systems, REST APIs and reliable enterprise software.">
+  <meta name="theme-color" content="#03060f">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Saurabh Sawant — Software Engineer">
+  <meta property="og:description" content="Building scalable backend systems and engineering reliable software.">
+  <meta property="og:type" content="website">
+  <!-- Résumé: put the PDF in assets/resume/ and set its path here to enable the download buttons. -->
+  <meta name="resume-pdf" content="assets/resume/CV_Saurabh_Sawant.pdf">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <nav class="nav container" aria-label="Primary">
+      <a class="nav__brand" href="#home">
+        <span class="nav__mark" aria-hidden="true"></span>
+        <span>Saurabh Sawant</span>
+      </a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+        <span class="visually-hidden">Menu</span>
+        <span class="nav__toggle-bars" aria-hidden="true"></span>
+      </button>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="#about" data-nav-link>About</a></li>
+        <li><a href="#experience" data-nav-link>Experience</a></li>
+        <li><a href="#skills" data-nav-link>Skills</a></li>
+        <li><a href="#projects" data-nav-link>Projects</a></li>
+        <li><a href="#education" data-nav-link>Education</a></li>
+        <li><a href="#contact" data-nav-link>Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Decorative, scroll-driven celestial stage. Never receives pointer or keyboard input. -->
+  <div class="stage" aria-hidden="true">
+    <div class="stage__layer" data-stage-layer>
+      <canvas class="stage__canvas" id="scene-canvas"></canvas>
+      <canvas class="stage__canvas" id="fallback-canvas" hidden></canvas>
+      <div class="fallback-earth" id="scene-fallback" hidden></div>
+      <canvas class="stage__canvas" id="label-canvas"></canvas>
+    </div>
+    <div class="stage__vignette"></div>
+  </div>
+
+  <div class="hud" aria-hidden="true">
+    <div class="hud__sector">
+      <span class="hud__index" data-hud-index>01</span>
+      <span class="hud__label" data-hud-label>Earth · Low orbit</span>
+    </div>
+    <div class="hud__track"><span class="hud__bar" data-hud-bar></span></div>
+    <div class="hud__readout"><span class="hud__key">Range</span> <span data-hud-readout>—</span></div>
+  </div>
+
+  <main id="main">
+    <!-- Scene 1 — Earth: who am I? -->
+    <section class="section hero" id="home" data-scene="home" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <p class="hero__location">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          Navi Mumbai, India
+          <span class="hero__coords" aria-hidden="true">19.03° N · 73.03° E</span>
+        </p>
+        <h1 class="hero__title" id="hero-title">
+          <span class="hero__line">Saurabh</span>
+          <span class="hero__line">Sawant</span>
+        </h1>
+        <p class="hero__role">Software Engineer</p>
+        <p class="hero__lede">Building scalable backend systems and engineering reliable software.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#about">
+            Explore My Work
+            <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="assets/resume/CV_Saurabh_Sawant.pdf" download data-resume-link>
+            <span data-resume-label>Download Résumé</span>
+            <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#profile">
+        <span>Scroll to explore</span>
+        <span class="scroll-cue__line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <!-- Scene 2 — Pull back from Earth -->
+    <section class="section interlude" id="profile" data-scene="profile" aria-labelledby="profile-title">
+      <div class="container">
+        <div class="panel panel--compact reveal">
+          <p class="kicker"><span>01</span> Profile</p>
+          <h2 class="interlude__title" id="profile-title">Software Engineer, backend systems.</h2>
+          <dl class="facts">
+            <div><dt>Experience</dt><dd>2.5 years</dd></div>
+            <div><dt>Focus</dt><dd>Backend systems &amp; REST APIs</dd></div>
+            <div><dt>Domains</dt><dd>SaaS &amp; banking</dd></div>
+            <div><dt>Base</dt><dd>Navi Mumbai, India</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 3 — Solar system reveal -->
+    <section class="section interlude interlude--reveal" id="mission-log" data-scene="trajectory" aria-labelledby="log-title">
+      <div class="container">
+        <div class="reveal-copy reveal">
+          <p class="kicker"><span>02</span> Mission log</p>
+          <h2 class="interlude__title" id="log-title">Every service is part of a larger system.</h2>
+          <p class="muted">From individual APIs to the platforms they power: the systems, experience and tools behind my work.</p>
+          <ul class="tag-row" aria-label="Themes">
+            <li>Engineering systems</li>
+            <li>Career trajectory</li>
+            <li>Technology</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 4 — About -->
+    <section class="section about" id="about" data-scene="about" aria-labelledby="about-title">
+      <div class="container about__grid">
+        <div class="panel reveal">
+          <p class="kicker"><span>03</span> About</p>
+          <h2 id="about-title">Engineering Beyond the Surface</h2>
+          <p class="lead">I'm a Software Engineer with 2.5 years of experience building backend systems, REST APIs, and enterprise applications across SaaS and banking domains. My work focuses on reliable services, performance optimization, secure application design, and asynchronous processing.</p>
+          <ul class="focus-list">
+            <li><span class="orbit-glyph" aria-hidden="true"></span>Backend engineering</li>
+            <li><span class="orbit-glyph" aria-hidden="true"></span>Distributed systems</li>
+            <li><span class="orbit-glyph" aria-hidden="true"></span>API performance and reliability</li>
+            <li><span class="orbit-glyph" aria-hidden="true"></span>AI-assisted development</li>
+          </ul>
+          <svg class="about__orbits" viewBox="0 0 240 90" aria-hidden="true" focusable="false">
+            <ellipse cx="120" cy="45" rx="110" ry="30" />
+            <ellipse cx="120" cy="45" rx="72" ry="19" />
+            <ellipse cx="120" cy="45" rx="36" ry="10" />
+            <circle class="about__core" cx="120" cy="45" r="3.5" />
+            <g><circle r="2.5"><animateMotion dur="26s" repeatCount="indefinite" path="M10,45 a110,30 0 1,0 220,0 a110,30 0 1,0 -220,0" /></circle></g>
+            <g><circle r="2"><animateMotion dur="15s" begin="-6s" repeatCount="indefinite" path="M48,45 a72,19 0 1,0 144,0 a72,19 0 1,0 -144,0" /></circle></g>
+            <g><circle r="1.6"><animateMotion dur="8s" begin="-2s" repeatCount="indefinite" path="M84,45 a36,10 0 1,0 72,0 a36,10 0 1,0 -72,0" /></circle></g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 5 — Career trajectory -->
+    <section class="section experience" id="experience" data-scene="experience" aria-labelledby="experience-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker"><span>04</span> Career trajectory</p>
+          <h2 id="experience-title">Two missions so far</h2>
+        </header>
+        <ol class="timeline">
+          <li class="timeline__item">
+            <article class="panel mission reveal" aria-labelledby="m1-title">
+              <header class="mission__head">
+                <p class="mission__tag">Milestone 01</p>
+                <h3 class="mission__title" id="m1-title">Newgen Software Technologies</h3>
+                <p class="mission__role">Software Engineer</p>
+                <p class="mission__meta">
+                  <span>Mumbai, India</span>
+                  <span aria-hidden="true">·</span>
+                  <span><time datetime="2024-01">January 2024</time> – <time datetime="2024-11">November 2024</time></span>
+                </p>
+              </header>
+              <ul class="mission__list">
+                <li>Developed and maintained enterprise banking applications.</li>
+                <li>Worked with Java, JavaScript, MySQL, and Newgen products including OmniDocs, iBPS, and MDM.</li>
+                <li>Developed and optimized trade finance APIs, improving retrieval efficiency by 15%.</li>
+                <li>Investigated production issues using root-cause analysis.</li>
+                <li>Worked with Oracle WebLogic and Windows/Linux environments.</li>
+              </ul>
+              <ul class="chips" aria-label="Technologies">
+                <li>Java</li><li>JavaScript</li><li>MySQL</li><li>OmniDocs</li><li>iBPS</li><li>MDM</li><li>Oracle WebLogic</li>
+              </ul>
+            </article>
+          </li>
+          <li class="timeline__item">
+            <article class="panel mission reveal" aria-labelledby="m2-title">
+              <header class="mission__head">
+                <p class="mission__tag">Milestone 02 <span class="mission__live">Current</span></p>
+                <h3 class="mission__title" id="m2-title">Wybrid Technologies</h3>
+                <p class="mission__role">Backend Developer</p>
+                <p class="mission__meta">
+                  <span>Mumbai, India</span>
+                  <span aria-hidden="true">·</span>
+                  <span><time datetime="2024-11">November 2024</time> – Present</span>
+                </p>
+              </header>
+              <ul class="mission__list">
+                <li>Contributed to a SaaS workplace management platform.</li>
+                <li>Developed backend modules for contracts, attendance tracking, and workspace allocation.</li>
+                <li>Built and optimized Node.js and Express.js REST APIs, improving response time by 30%.</li>
+                <li>Implemented JWT authentication and role-based access control.</li>
+                <li>Implemented Redis-backed asynchronous jobs and cron tasks, contributing to a reported 40% improvement in concurrency handling and system reliability.</li>
+                <li>Built React.js components and integrated third-party IRIS APIs for billing.</li>
+                <li>Used Claude Code for AI-assisted requirement drafting, implementation, debugging, documentation, and refactoring.</li>
+              </ul>
+              <ul class="chips" aria-label="Technologies">
+                <li>Node.js</li><li>Express.js</li><li>Redis</li><li>JWT</li><li>React.js</li><li>Claude Code</li>
+              </ul>
+            </article>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Scene 6 — Technology constellation -->
+    <section class="section skills" id="skills" data-scene="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <header class="section-head section-head--center reveal">
+          <p class="kicker"><span>05</span> Technology constellation</p>
+          <h2 id="skills-title">Tools I build with</h2>
+          <p class="muted legend">
+            <span class="legend__star legend__star--core" aria-hidden="true"></span>
+            Brighter stars and <strong>bold</strong> names are technologies used in the experience and projects on this page.
+          </p>
+        </header>
+        <div class="constellations">
+          <article class="constellation reveal" id="cns-backend" data-constellation>
+            <header class="constellation__head"><span class="constellation__code" aria-hidden="true">CNS-01</span><h3>Backend Engineering</h3></header>
+            <div class="constellation__chart"></div>
+            <ul class="skill-list">
+              <li data-core>Java</li><li data-core>Spring Boot</li><li data-core>Node.js</li><li data-core>Express.js</li><li data-core>Microservices</li><li data-core>REST APIs</li><li data-core>JPA/Hibernate</li><li data-core>Spring Security</li>
+            </ul>
+          </article>
+          <article class="constellation reveal" id="cns-data" data-constellation>
+            <header class="constellation__head"><span class="constellation__code" aria-hidden="true">CNS-02</span><h3>Databases and Messaging</h3></header>
+            <div class="constellation__chart"></div>
+            <ul class="skill-list">
+              <li data-core>PostgreSQL</li><li data-core>MySQL</li><li data-core>MongoDB</li><li data-core>Redis</li><li data-core>Kafka</li><li>Schema design</li><li>Indexing and query optimization</li><li>Caching</li>
+            </ul>
+          </article>
+          <article class="constellation reveal" id="cns-cloud" data-constellation>
+            <header class="constellation__head"><span class="constellation__code" aria-hidden="true">CNS-03</span><h3>Cloud and DevOps</h3></header>
+            <div class="constellation__chart"></div>
+            <ul class="skill-list">
+              <li>AWS EC2</li><li>AWS S3</li><li>AWS Lambda</li><li>CloudWatch</li><li>Docker</li><li>CI/CD</li><li>GitHub Actions</li><li data-core>Linux</li><li>Bash scripting</li>
+            </ul>
+          </article>
+          <article class="constellation reveal" id="cns-frontend" data-constellation>
+            <header class="constellation__head"><span class="constellation__code" aria-hidden="true">CNS-04</span><h3>Frontend</h3></header>
+            <div class="constellation__chart"></div>
+            <ul class="skill-list">
+              <li data-core>JavaScript</li><li>TypeScript</li><li data-core>React.js</li><li>Redux</li><li>Next.js</li><li>HTML5</li><li>CSS3</li><li>Tailwind CSS</li><li>Material UI</li>
+            </ul>
+          </article>
+          <article class="constellation reveal" id="cns-practices" data-constellation>
+            <header class="constellation__head"><span class="constellation__code" aria-hidden="true">CNS-05</span><h3>Engineering Practices</h3></header>
+            <div class="constellation__chart"></div>
+            <ul class="skill-list">
+              <li>System design</li><li>Object-oriented programming</li><li>Data structures and algorithms</li><li data-core>Authentication and authorization</li><li>Unit and integration testing</li><li data-core>JUnit</li><li>Postman</li><li>Agile and SDLC</li>
+            </ul>
+          </article>
+          <article class="constellation reveal" id="cns-ai" data-constellation>
+            <header class="constellation__head"><span class="constellation__code" aria-hidden="true">CNS-06</span><h3>AI-Assisted Development</h3></header>
+            <div class="constellation__chart"></div>
+            <ul class="skill-list">
+              <li data-core>Claude Code</li><li>ChatGPT</li><li>Prompt engineering</li><li>LLM-assisted development</li><li>AI agent integration</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 7 — Project missions -->
+    <section class="section projects" id="projects" data-scene="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="kicker"><span>06</span> Project missions</p>
+          <h2 id="projects-title">Selected builds</h2>
+        </header>
+
+        <article class="panel project reveal" aria-labelledby="p1-title">
+          <div class="project__body">
+            <p class="mission__tag">Project 01</p>
+            <h3 class="project__title" id="p1-title">Mini JIRA <span class="project__subtitle">Task &amp; Project Management Backend</span></h3>
+            <p>Built a JIRA-inspired backend supporting project and task management, assignment, status tracking, validation, pagination, and exception handling. Designed User, Project, and Task services with API Gateway and asynchronous Kafka-based event processing.</p>
+            <h4 class="project__subhead">Engineering decisions</h4>
+            <ul class="mission__list">
+              <li>Domain-split services (User, Project, Task) behind a single API Gateway entry point, so each service has a narrow responsibility.</li>
+              <li>Kafka carries events between services asynchronously, keeping cross-service work off the request path.</li>
+              <li>Spring Security with JWT for stateless authentication on the REST APIs.</li>
+              <li>Validation, pagination and centralised exception handling for predictable API responses, covered by JUnit tests.</li>
+            </ul>
+            <ul class="chips" aria-label="Technologies">
+              <li>Java</li><li>Spring Boot</li><li>Spring Data JPA</li><li>PostgreSQL</li><li>Spring Security</li><li>JWT</li><li>Kafka</li><li>REST APIs</li><li>JUnit</li>
+            </ul>
+            <!-- GitHub link intentionally omitted until the repository URL is confirmed. -->
+          </div>
+          <figure class="project__diagram">
+            <svg viewBox="0 0 460 300" role="img" aria-labelledby="d1-title d1-desc">
+              <title id="d1-title">Mini JIRA service architecture</title>
+              <desc id="d1-desc">A client calls an API Gateway, which routes requests to the User, Project and Task services. The services persist data in PostgreSQL through Spring Data JPA and exchange asynchronous events through Kafka.</desc>
+              <defs>
+                <marker id="arrow1" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 8 4 0 8z" class="dg-arrow"/></marker>
+              </defs>
+              <g class="dg-node"><rect x="10" y="125" width="76" height="50" rx="6"/><text x="48" y="155">Client</text></g>
+              <g class="dg-node dg-node--accent"><rect x="118" y="115" width="92" height="70" rx="6"/><text x="164" y="146">API</text><text x="164" y="162">Gateway</text></g>
+              <g class="dg-node"><rect x="246" y="40" width="104" height="44" rx="6"/><text x="298" y="66">User Service</text></g>
+              <g class="dg-node"><rect x="246" y="128" width="104" height="44" rx="6"/><text x="298" y="154">Project Service</text></g>
+              <g class="dg-node"><rect x="246" y="216" width="104" height="44" rx="6"/><text x="298" y="242">Task Service</text></g>
+              <g class="dg-node dg-node--store"><rect x="382" y="110" width="68" height="80" rx="6"/><text x="416" y="146">Postgre</text><text x="416" y="162">SQL</text></g>
+              <path class="dg-link" d="M86 150H116" marker-end="url(#arrow1)"/>
+              <path class="dg-link" d="M210 140C228 140 226 62 244 62" marker-end="url(#arrow1)"/>
+              <path class="dg-link" d="M210 150H244" marker-end="url(#arrow1)"/>
+              <path class="dg-link" d="M210 160C228 160 226 238 244 238" marker-end="url(#arrow1)"/>
+              <path class="dg-link dg-link--soft" d="M350 62C366 62 364 130 380 130" marker-end="url(#arrow1)"/>
+              <path class="dg-link dg-link--soft" d="M350 150H380" marker-end="url(#arrow1)"/>
+              <path class="dg-link dg-link--soft" d="M350 238C366 238 364 170 380 170" marker-end="url(#arrow1)"/>
+              <rect class="dg-bus" x="236" y="278" width="124" height="16" rx="8"/>
+              <text class="dg-bus-label" x="298" y="290">Kafka · async events</text>
+              <path class="dg-event" d="M262 84V128M262 172V216M262 260V278"/>
+              <text class="dg-caption" x="164" y="206">routing</text>
+              <text class="dg-caption" x="416" y="208">JPA</text>
+              <text class="dg-caption" x="298" y="24">Spring Security · JWT</text>
+            </svg>
+          </figure>
+        </article>
+
+        <article class="panel project project--alt reveal" aria-labelledby="p2-title">
+          <div class="project__body">
+            <p class="mission__tag">Project 02</p>
+            <h3 class="project__title" id="p2-title">Role-Based Access Control <span class="project__subtitle">E-Commerce Application</span></h3>
+            <p>Built secure REST APIs for Super Admin, Admin, Partner, and Customer workflows. Implemented JWT authentication, password hashing, product management, and an approval/rejection workflow for product listings.</p>
+            <h4 class="project__subhead">Engineering decisions</h4>
+            <ul class="mission__list">
+              <li>Authentication and authorization kept separate: a JWT establishes identity, then role checks decide what each route allows.</li>
+              <li>Passwords are stored as bcrypt hashes, never in plain text.</li>
+              <li>Product listings move through explicit approval and rejection states rather than a single flag.</li>
+            </ul>
+            <ul class="chips" aria-label="Technologies">
+              <li>Node.js</li><li>Express.js</li><li>MongoDB</li><li>React.js</li><li>JWT</li><li>bcrypt</li>
+            </ul>
+            <a class="btn btn--ghost btn--small" href="https://github.com/Saurabhsawant77/User-Product-API" target="_blank" rel="noopener noreferrer">
+              View on GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+              <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <figure class="project__diagram">
+            <svg viewBox="0 0 460 300" role="img" aria-labelledby="d2-title d2-desc">
+              <title id="d2-title">Authorization flow</title>
+              <desc id="d2-desc">A request passes JWT verification, then a role check for Super Admin, Admin, Partner or Customer before reaching the protected route. Passwords are hashed with bcrypt at sign-in. Product listings move from submitted to pending review, then to approved or rejected.</desc>
+              <defs>
+                <marker id="arrow2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 8 4 0 8z" class="dg-arrow"/></marker>
+              </defs>
+              <text class="dg-caption dg-caption--left" x="10" y="22">Request pipeline</text>
+              <g class="dg-node"><rect x="10" y="36" width="78" height="44" rx="6"/><text x="49" y="62">Request</text></g>
+              <g class="dg-node dg-node--accent"><rect x="112" y="36" width="96" height="44" rx="6"/><text x="160" y="62">Verify JWT</text></g>
+              <g class="dg-node dg-node--accent"><rect x="232" y="36" width="96" height="44" rx="6"/><text x="280" y="62">Role check</text></g>
+              <g class="dg-node"><rect x="352" y="36" width="98" height="44" rx="6"/><text x="401" y="62">Route</text></g>
+              <path class="dg-link" d="M88 58H110" marker-end="url(#arrow2)"/>
+              <path class="dg-link" d="M208 58H230" marker-end="url(#arrow2)"/>
+              <path class="dg-link" d="M328 58H350" marker-end="url(#arrow2)"/>
+              <g class="dg-roles">
+                <text x="280" y="106">Super Admin</text><text x="280" y="120">Admin</text><text x="280" y="134">Partner</text><text x="280" y="148">Customer</text>
+              </g>
+              <path class="dg-link dg-link--soft" d="M280 80V92"/>
+              <g class="dg-node dg-node--store"><rect x="10" y="100" width="150" height="40" rx="6"/><text x="85" y="124">bcrypt password hash</text></g>
+              <text class="dg-caption dg-caption--left" x="10" y="188">Product listing workflow</text>
+              <g class="dg-node"><rect x="10" y="202" width="94" height="44" rx="6"/><text x="57" y="228">Submitted</text></g>
+              <g class="dg-node dg-node--accent"><rect x="134" y="202" width="112" height="44" rx="6"/><text x="190" y="228">Pending review</text></g>
+              <g class="dg-node dg-node--ok"><rect x="290" y="184" width="104" height="36" rx="6"/><text x="342" y="206">Approved</text></g>
+              <g class="dg-node dg-node--no"><rect x="290" y="232" width="104" height="36" rx="6"/><text x="342" y="254">Rejected</text></g>
+              <path class="dg-link" d="M104 224H132" marker-end="url(#arrow2)"/>
+              <path class="dg-link" d="M246 218C266 218 268 202 288 202" marker-end="url(#arrow2)"/>
+              <path class="dg-link" d="M246 230C266 230 268 250 288 250" marker-end="url(#arrow2)"/>
+            </svg>
+          </figure>
+        </article>
+      </div>
+    </section>
+
+    <!-- Scene 8 — Education & certifications -->
+    <section class="section education" id="education" data-scene="education" aria-labelledby="education-title">
+      <div class="container education__grid">
+        <div class="education__wrap">
+          <header class="section-head reveal">
+            <p class="kicker"><span>07</span> Mission archive</p>
+            <h2 id="education-title">Education &amp; certifications</h2>
+          </header>
+          <div class="archive">
+            <article class="panel archive__item reveal">
+              <p class="archive__label">Education</p>
+              <h3>B.Tech in Information Technology</h3>
+              <p class="archive__org">Pillai College of Engineering</p>
+              <p class="archive__meta"><span>2020–2024</span><span class="archive__score">CGPA 9.54/10</span></p>
+            </article>
+            <article class="panel archive__item reveal">
+              <p class="archive__label">HSC</p>
+              <h3>Maharashtra Board</h3>
+              <p class="archive__meta"><span>2020</span><span class="archive__score">82.92%</span></p>
+            </article>
+            <article class="panel archive__item archive__item--wide reveal">
+              <p class="archive__label">Certifications</p>
+              <ul class="cert-list">
+                <li><strong>Claude Code 101</strong><span>Anthropic · June 2026</span></li>
+                <li><strong>Google Cloud Career Practitioner</strong><span>Google Developer Student Clubs, Pillai College of Engineering · January 2023</span></li>
+              </ul>
+            </article>
+            <article class="panel archive__item archive__item--wide reveal">
+              <p class="archive__label">Languages</p>
+              <dl class="lang-list">
+                <div><dt>English</dt><dd>Professional</dd></div>
+                <div><dt>Hindi</dt><dd>Native</dd></div>
+                <div><dt>Marathi</dt><dd>Native</dd></div>
+                <div><dt>German</dt><dd>Beginner</dd></div>
+              </dl>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 9 — Final destination: contact -->
+    <section class="section contact" id="contact" data-scene="contact" aria-labelledby="contact-title">
+      <div class="container contact__inner reveal">
+        <p class="kicker kicker--center"><span>08</span> Final destination</p>
+        <h2 class="contact__title" id="contact-title">Have a challenging system to build?</h2>
+        <p class="contact__lede">Let's connect and build something meaningful.</p>
+        <ul class="contact__links">
+          <li>
+            <a class="contact-link" href="mailto:saurabhsawant077@gmail.com">
+              <span class="contact-link__label">Email</span>
+              <span class="contact-link__value">saurabhsawant077@gmail.com</span>
+            </a>
+          </li>
+          <li>
+            <a class="contact-link" href="https://www.linkedin.com/in/saurabhsawant077" target="_blank" rel="noopener noreferrer">
+              <span class="contact-link__label">LinkedIn</span>
+              <span class="contact-link__value">in/saurabhsawant077<span class="visually-hidden"> (opens in a new tab)</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="contact-link" href="https://github.com/Saurabhsawant77" target="_blank" rel="noopener noreferrer">
+              <span class="contact-link__label">GitHub</span>
+              <span class="contact-link__value">Saurabhsawant77<span class="visually-hidden"> (opens in a new tab)</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="contact-link" href="assets/resume/CV_Saurabh_Sawant.pdf" download data-resume-link>
+              <span class="contact-link__label">Résumé</span>
+              <span class="contact-link__value" data-resume-label>Download Résumé</span>
+            </a>
+          </li>
+        </ul>
+        <p class="contact__location"><span class="pulse-dot" aria-hidden="true"></span>Navi Mumbai, India</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>© <span data-year>2026</span> Saurabh Sawant</p>
+      <a class="back-link" href="#home">
+        Back to Earth
+        <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </footer>
+</body>
+</html>

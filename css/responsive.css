@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Responsive layouts, reduced motion and print
+   ========================================================================== */
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) {
+  .constellations { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project { grid-template-columns: minmax(0, 1fr); }
+  .project--alt .project__diagram { order: 0; }
+  .project__diagram { max-width: 560px; }
+  .contact__links { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 680px; }
+  .hero__lede { max-width: 26ch; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 759px) {
+  :root { --header-h: 60px; }
+
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;
+    margin-right: -10px;
+    border-radius: 10px;
+  }
+  .nav__toggle-bars,
+  .nav__toggle-bars::before,
+  .nav__toggle-bars::after {
+    display: block;
+    width: 20px; height: 1.5px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+  }
+  .nav__toggle-bars { position: relative; }
+  .nav__toggle-bars::before,
+  .nav__toggle-bars::after { content: ""; position: absolute; left: 0; }
+  .nav__toggle-bars::before { top: -6px; }
+  .nav__toggle-bars::after { top: 6px; }
+  .is-open .nav__toggle-bars { background: transparent; }
+  .is-open .nav__toggle-bars::before { transform: translateY(6px) rotate(45deg); }
+  .is-open .nav__toggle-bars::after { transform: translateY(-6px) rotate(-45deg); }
+
+  .nav__menu {
+    position: fixed;
+    top: var(--header-h);
+    left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem var(--gutter) 1.5rem;
+    background: rgba(3, 6, 15, 0.96);
+    border-bottom: 1px solid var(--line);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0s linear 0.25s;
+  }
+  .is-open .nav__menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0s;
+  }
+  .nav__menu a {
+    display: block;
+    padding: 0.9rem 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__menu a::after { left: auto; right: 0; top: 50%; bottom: auto; transform: translateY(-50%) scale(0); }
+  .nav__menu a[aria-current]::after { transform: translateY(-50%) scale(1); }
+
+  .hud { display: none; }
+
+  .section { padding-block: 5.5rem; }
+
+  /* Earth sits in the upper half; identity text anchors the bottom. */
+  .hero { align-items: flex-end; padding-bottom: 6.5rem; }
+  .hero__title { font-size: clamp(2.7rem, 13.5vw, 4rem); }
+  .hero__location { margin-bottom: 1rem; font-size: 0.68rem; }
+  .hero__coords { display: none; }
+  .hero__lede { font-size: 1.08rem; }
+  .hero__actions { margin-top: 1.6rem; }
+  .hero__actions .btn { flex: 1 1 auto; }
+  .scroll-cue { bottom: 1.2rem; }
+  .scroll-cue span:first-child { display: none; }
+
+  .interlude,
+  .interlude--reveal { min-height: 100vh; min-height: 100svh; align-items: flex-end; }
+  .panel { padding: 1.4rem; }
+  .panel--compact,
+  .reveal-copy { max-width: none; }
+  .reveal-copy {
+    padding: 1.4rem;
+    border-radius: var(--radius);
+    background: rgba(3, 7, 18, 0.72);
+  }
+
+  .focus-list { grid-template-columns: minmax(0, 1fr); }
+  .about__grid,
+  .education__grid { display: block; }
+
+  .timeline { padding-left: 1.8rem; }
+  .timeline__item::before { left: calc(-1.8rem + 2px); }
+
+  .constellations { grid-template-columns: minmax(0, 1fr); }
+  .archive { grid-template-columns: minmax(0, 1fr); }
+  .lang-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .contact { min-height: 100vh; }
+  .contact__links { grid-template-columns: minmax(0, 1fr); }
+
+  .site-footer__inner { flex-direction: column-reverse; align-items: flex-start; gap: 0.25rem; }
+}
+
+/* ---------- Portrait tablet: stacked composition like phones ---------- */
+@media (min-width: 760px) and (max-width: 1099px) and (orientation: portrait) {
+  .hero { align-items: flex-end; padding-bottom: 8rem; }
+  .interlude,
+  .interlude--reveal { min-height: 100vh; align-items: flex-end; }
+  .about__grid,
+  .education__grid { justify-content: flex-start; }
+}
+
+@media (max-width: 380px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .hero__actions { flex-direction: column; }
+}
+
+/* Avoid sticky hover states on touch screens */
+@media (hover: none) {
+  .btn--primary:hover,
+  .contact-link:hover { transform: none; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .stage.is-ready { animation: none; opacity: 1; }
+  .stage__layer { transition: opacity 0.28s ease; }
+  .js .reveal { transform: none; transition: opacity 0.5s ease; }
+  .hero__inner { transform: none; }
+  .constellation__chart line { transition: none; stroke-dashoffset: 0; }
+  .dg-event { animation: none; }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  .stage, .hud, .site-header, .scroll-cue, .skip-link { display: none !important; }
+  body { background: #fff; color: #000; }
+  .js .reveal { opacity: 1; transform: none; }
+  .panel, .constellation, .contact-link { background: none; border-color: #ccc; box-shadow: none; }
+  .section { min-height: 0; padding-block: 1.5rem; }
+}
